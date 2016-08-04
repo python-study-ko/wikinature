@@ -95,3 +95,5 @@ migrations/
 # pycharm 셋팅
 .idea/
 
+djangomapbox/mapbox/data/
+djangomapbox/mapbox/migrations/ 제거할 예정
