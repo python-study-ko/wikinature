@@ -6,6 +6,21 @@
 </head>
 <body>
 {{ test }}
+
+{% if upload == 'no' %}
 <a href="{% url 'main:index' %}">home</a>
+    <form action="/check/" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <p>{{ form.non_field_errors }}</p>
+        <p>{{ form.file.label_tag }} {{ form.file.help_text }}</p>
+            <p>
+                {{ form.file.errors }}
+                {{ form.file }}
+            </p>
+        <input type="submit" value="UPLOAD" />
+    </form>
+{% else %}
+    <a href="{% url 'check:index' %}">다시 해보기</a>
+{% endif %}
 </body>
 </html>
