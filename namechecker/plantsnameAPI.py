@@ -39,10 +39,9 @@ def search(name,st=3):
 
     if item != '':
         if type(item['ns1.KorSearchVO']) == type(list()):
-            print('list // {0}'.format(item['ns1.KorSearchVO']))
             """ 결과값이 두개 이상 나올경우 """
-            data = '동일한 이름의 학명ID가 2개이상 있습니다'
-            return '동일한 이름의 학명ID가 2개이상 있습니다'
+            etc = '동일한 국의 학명ID가 2개이상 있습니다'
+            data = {'state':False , 'etc':etc}
         elif type(item['ns1.KorSearchVO']) == type(dict()):
             """ 결과값이 1개일 경우 """
             # 매칭된 국명 번호
@@ -51,9 +50,17 @@ def search(name,st=3):
                 # 국명번호 상세 조회 요청
                 data = NameInfo(num)
             except EOFError as e: # 정보 죄회중 오류 발생시 None값으로 반환
-                print(e)
-                data = '해당 식물의 학명ID는 {0}입니다만.. 학명에 대한 조회를 실패했습니다'.format(num)
+                # test code
+                # print(e)
+                etc = '해당 식물의 학명ID는 {0}입니다만.. 학명에 대한 조회를 실패했습니다'.format(num)
+                data = {'state': False, 'etc': etc}
     else:
-        data = '해당 식물의 이름으로 검색이 안됩니다.'
+        etc = '해당 이름으로 검색된 식물이 없습니다. 식물명을 다시 확인해 주세요'
+        data = {'state': False, 'etc': etc}
     return data
 
+def matchlist(list):
+    info_list = {}
+    for name in list:
+        info_list[name] = search(name)
+    return info_list
