@@ -28,3 +28,9 @@ POST: <포트:3306>
 [mapbox]
 
 MAPBOX_TOKEN: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+[api]
+# 각종 api를 연동하기 위한 정보 모음
+
+#국가 표준 식물목록 연동을 위한 API_key
+NAME_APIKEY: xxxxxxxxxxxxxxxxxx

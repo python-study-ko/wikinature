@@ -145,3 +145,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # 디버깅 툴바(djdt) 설정
 INTERNAL_IPS = ['127.0.0.1']
+
+NAME_APIKEY = config.get('api','NAME_APIKEY')
