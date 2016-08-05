@@ -4,6 +4,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from .forms import ImportFile
 
+
+
 class Index(View):
     def get(self, request, data=None):
         form = ImportFile()
@@ -15,11 +17,15 @@ class Index(View):
     def post(self, request):
         form = ImportFile(request.POST,request.FILES)
         if form.is_valid():
-            return HttpResponseRedirect('/success/url/')
+            # 업로드한 파일 호출
+            file = request.FILES['file']
+
+            # 파일 검사
+            if file.content_type != 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+                return HttpResponseRedirect('/check/')
+
+            context = {'test': file.content_type, 'upload': 'yes'}
+            data = render_to_string('check/index.html', context, request=request)
+            return HttpResponse(data)
         else:
-            return HttpResponseRedirect('/fail/url')
-        """
-        context = {'test': file, 'upload':'yes'}
-        data = render_to_string('check/index.html', context, request=request)
-        return HttpResponse(data)
-        """
+            return HttpResponseRedirect('/check/')
