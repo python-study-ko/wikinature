@@ -18,5 +18,6 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^', include('main.urls', namespace='main')),
+    url(r'^check/', include('namechecker.urls', namespace='check')),
     url(r'^admin/', admin.site.urls),
 ]
