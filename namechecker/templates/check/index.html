@@ -6,7 +6,10 @@
 </head>
 <body>
 {{ test }}
+{# 오류 메세지 출력 #}
+{% if message %} <h3>{{ message }}</h3> {% endif %}
 
+{# 파일을 업로드 하지 않았을 경우 #}
 {% if upload == 'no' %}
 <a href="{% url 'main:index' %}">home</a>
     <form action="/check/" method="post" enctype="multipart/form-data">
