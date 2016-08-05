@@ -15,6 +15,16 @@
     <form action="/check/" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <p>{{ form.non_field_errors }}</p>
+        {# 시트 명 #}
+        <p>{{ form.sheetname.label_tag }} {{ form.sheetname.help_text }}</p>
+        <p>{{ form.sheetname.errors }} {{ form.sheetname }}</p>
+        {# 열 이름 #}
+        <p>{{ form.rowname.label_tag }} {{ form.rowname.help_text }}</p>
+        <p>{{ form.rowname.errors }} {{ form.rowname }} </p>
+        {# 열 번호 #}
+        <p>{{ form.rownum.label_tag }} {{ form.rownum.help_text }}</p>
+        <p>{{ form.rownum.errors }} {{ form.rownum }} </p>
+        {# 파일 업로드 #}
         <p>{{ form.file.label_tag }} {{ form.file.help_text }}</p>
             <p>
                 {{ form.file.errors }}
