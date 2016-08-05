@@ -1,0 +1,10 @@
+configparser==3.5.0
+Django==1.9.9
+django-debug-toolbar==1.4
+django-extensions==1.6.7
+django-leaflet==0.17.1
+psycopg2==2.6.2
+six==1.10.0
+sqlparse==0.1.19
+Werkzeug==0.11.10
+whitenoise==3.2

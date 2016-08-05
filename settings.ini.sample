@@ -1,0 +1,30 @@
+[deploy]
+# 시크릿키는 http://www.miniwebtool.com/django-secret-key-generator/ 여기서 발급받아 채우셔도 됩니다.
+SECRET_KEY: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+DEBUG: True
+ALLOWED_HOSTS: *
+# whitenoise 설정 : 정적 파일을 CDN으로 배포시 False, CDN이 없다면 True
+WHITENOISE: True
+
+[language]
+LANGUAGE_CODE: ko
+TIME_ZONE: Asia/Seoul
+
+
+[db]
+# DB 엔진 종류
+# sqlite > django.db.backends.sqlite3
+# mysql > django.db.backends.mysql
+# pgsql > django.db.backends.postgresql_psycopg2
+# postgis > django.contrib.gis.db.backends.postgis
+
+ENGINE: django.db.backends.postgresql_psycopg2
+NAME: <테이블 이름>
+USER: <계정>
+PASSWORD: <비밀번호>
+HOST: <서버 주소>
+POST: <포트:3306>
+
+[mapbox]
+
+MAPBOX_TOKEN: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
