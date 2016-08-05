@@ -18,7 +18,7 @@ def NameInfo(num):
 
     # 식물 상세 정보에서 필요한 자료만 추출
     data = r.json()['ns1.BtncInfoResponse']['ns1.body']['ns1.item']
-    info = {'국명':data['ns1.korname'],'학명':data['ns1.plantTtnm']}
+    info = {'state':True, '국명':data['ns1.korname'],'학명':data['ns1.plantTtnm']}
     return info
 
 
@@ -40,7 +40,7 @@ def search(name,st=3):
     if item != '':
         if type(item['ns1.KorSearchVO']) == type(list()):
             """ 결과값이 두개 이상 나올경우 """
-            etc = '동일한 국의 학명ID가 2개이상 있습니다'
+            etc = '동일한 국명의 학명ID가 {}개 있습니다'.format(len(item['ns1.KorSearchVO']))
             data = {'state':False , 'etc':etc}
         elif type(item['ns1.KorSearchVO']) == type(dict()):
             """ 결과값이 1개일 경우 """

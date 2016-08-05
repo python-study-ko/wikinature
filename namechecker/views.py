@@ -8,6 +8,7 @@ from .forms import ImportFile
 import tempfile
 import openpyxl
 from openpyxl.utils import get_column_letter, column_index_from_string
+from .plantsnameAPI import matchlist
 
 class Checker:
 
@@ -22,6 +23,7 @@ class Checker:
 
         self.file = openpyxl.load_workbook(file)
         self.sheet = self.file.get_sheet_by_name(sheet_name)
+        self.row_num = row_num
         self.row_name = row_name
         self.head_col = self.sheet.rows[row_num]
         self.head_row = findtarget(self.head_col,row_name)
@@ -33,14 +35,32 @@ class Checker:
         self.row_nameen = get_column_letter(self._indx+2)
 
     def search(self):
-        for i in range(1,self.count_list):
+        # 중복되지 않는 식물명 리스트를 만든
+        name_list = []
+        for i in range(self.row_num+2,self.count_list+1):
             name = self.sheet.cell(row=i,column=self.head_row['index']).value
-            self.sheet['{0}{1}'.format(self.row_nameko,i)] = name
-            self.sheet['{0}{1}'.format(self.row_nameen,i)] = name
+            if name not in name_list:
+                name_list.append(name)
+
+        # 식물이름에 매칭되는 국,학명 정보를 가져온다
+        plant_info = matchlist(name_list)
+
+        # 국,학명 머리열 이름 추가
+        self.sheet['{0}{1}'.format(self.row_nameko, self.row_num + 1)] = '국명'
+        self.sheet['{0}{1}'.format(self.row_nameen, self.row_num + 1)] = '학명'
+
+        for i in range(self.row_num+2,self.count_list+1):
+            name = self.sheet.cell(row=i,column=self.head_row['index']).value
+            if plant_info[name]['state'] == False:
+                self.sheet['{0}{1}'.format(self.row_nameko, i)] = plant_info[name]['etc']
+            else:
+                self.sheet['{0}{1}'.format(self.row_nameko,i)] = plant_info[name]['국명']
+                self.sheet['{0}{1}'.format(self.row_nameen,i)] = plant_info[name]['학명']
 
 
 
-def checkname(file):
+
+def checkname(fie):
     """
     이름을 매칭하여 알려준다
     :param file:
@@ -88,11 +108,10 @@ class Index(View):
                     target.file.save('test.xlsx')
                     upload = 'yes'
                     message = '파일이 성공적으로 업로드 되었습니다. 잠시만 기다리시면 작업이 완료된 파일을 다운 받을수 있습니다.'
-                    # test code
-                    message = '{0},{1},{2}'.format(target.sheet,target.head_col,target.head_row)
-                except:
+
+                except EOFError as e:
                     upload = 'no'
-                    message = '지원하지 않는 엑셀 구조 입니다.관리자 에게 문의해 주세요'
+                    message = '지원하지 않는 엑셀 구조 입니다.관리자 에게 문의해 주세요  {}'.format(e)
 
 
         else:   # 업로드 파일이 없을 경우
