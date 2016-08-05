@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     # werkzeug 디버거를 위한 추가
     'django_extensions',
     # 제작 앱
-    'namechecker',
+    'main', # 메인 페이지 앱
+    'namechecker', # 식물명 체크 앱
 ]
 
 MIDDLEWARE_CLASSES = [
