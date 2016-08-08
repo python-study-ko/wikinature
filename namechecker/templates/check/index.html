@@ -1,8 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/css/bootstrap.min.css" integrity="sha384-MIwDKRSSImVFAZCVLtU0LMDdON6KVCrZHyVQQj6e8wIEJkW4tvwqXrbMIya1vriY" crossorigin="anonymous">
+    <link rel="stylesheet" href="cover.css">
+
+    <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
+    <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
+
+    <link rel="stylesheet" href="//cdn.rawgit.com/hiun/NanumSquare/master/nanumsquare.css">
+
+    <style>
+        h1, h2, h3, h4, h5{font-family: 'Nanum Square'; font-weight: bold;}
+        .dropzone{border-style: dashed;
+                    /* background: repeating-linear-gradient(45deg,lightgray,lightgray 10px,gray 10px,gray 20px);*/
+                    opacity: 0.8;}
+        .dropzone:hover{background-color: whitesmoke;opacity: 0.5;}
+        #dropzone-text{color: darkslategray;}
+    </style>
 </head>
 <body>
 {{ test }}
@@ -35,5 +53,104 @@
 {% else %}
     <a href="{% url 'check:index' %}">다시 해보기</a>
 {% endif %}
-</body>
+<div class="site-wrapper">
+
+      <div class="site-wrapper-inner">
+
+        <div class="cover-container">
+
+          <header class="masthead clearfix">
+            <div class="inner">
+              <h3 class="masthead-brand">WikiNature</h3>
+              <nav class="nav nav-masthead">
+                <a class="nav-link active" href="#">Home</a>
+                <a class="nav-link" href="#">Features</a>
+                <a class="nav-link" href="#">Contact</a>
+              </nav>
+            </div>
+          </header>
+
+          <section class="inner cover">
+            <h1 class="cover-heading">여러분의 시간을 절약하세요!</h1>
+            <p class="lead">이명,국명을 국가표준식물목록에서 검색하여 정확한 학명과 식물 정보를 찾아드립니다!</p>
+
+
+		  	<!-- 엑셀 정보 입력 폼 -->
+		  	<form class="postdata lead" action="/check/" enctype="multipart/form-data">
+                {# {% csrf_token %} #}
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon2">시트 이름</span>
+                    <input id="sheetname" type="text" class="form-control" placeholder="ex)sheet1" aria-describedby="basic-addon1">
+
+                    <span class="input-group-addon" id="basic-addon2">열 이름</span>
+                    <input id="rowname" type="text" class="form-control" placeholder="ex)종명" aria-describedby="basic-addon1">
+
+                    <span class="input-group-addon" id="basic-addon2">열 번호</span>
+                    <input id="rownum" type="text" class="form-control" placeholder="ex)1" aria-describedby="basic-addon1">
+                </div>
+                <br>
+			</form>
+
+		  	<!-- 엑셀 파일 업로드 드롭존 -->
+			<form name="file" class="postdata dropzone" id="myDropzone" action="/check/" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="dz-message needsclick"><h5 id="dropzone-text">여기에 엑셀 파일을 떨궈주시거나<br>이곳을 클릭해서 파일을 선택해주세요</h5></div>
+			</form>
+		  	<!-- post 전송 버튼 -->
+		  	<br>
+		  	<button type="button" class="btn btn-primary" id="submit-all">업로드 하기</button>
+            <script type="text/javascript">
+            Dropzone.options.myDropzone = {
+
+                // Prevents Dropzone from uploading dropped files immediately
+                autoProcessQueue : false,
+
+                init : function() {
+                    var submitButton = document.querySelector("#submit-all")
+                    myDropzone = this;
+
+                    submitButton.addEventListener("click", function() {
+                        myDropzone.processQueue();
+                        // Tell Dropzone to process all queued files.
+                    });
+
+                    // You might want to show the submit button only when
+                    // files are dropped here:
+                    this.on("addedfile", function() {
+                        // Show submit button here and/or inform user to click it.
+                    });
+                    this.on("sending", function(file, xhr, formData) {
+                     // 파일 업로드시 시트 이름, 열이름등 입력값이 같이 전송되도록 하기
+                        formData.append("sheetname", $("#sheetname").val());
+                        formData.append("rowname", $("#rowname").val());
+                        formData.append("rownum", $("#rownum").val());
+                    });
+                }
+            };
+        </script>
+		  	<p class="lead">
+              올려주신 엑셀 파일은 저장되지 않으며 국,학명을 찾는 작업이 완료되면 자동 삭제 됩니다.
+            </p>
+          </section>
+
+          <div class="mastfoot">
+            <div class="inner">
+              <p>Cover template for <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/js/bootstrap.min.js" integrity="sha384-ux8v3A6CPtOTqOzMKiuo3d/DomGaaClxFYdCu2HPMBEkf6x2xiDyJ7gkXU0MWwaD" crossorigin="anonymous"></script>
+  </body>
 </html>
