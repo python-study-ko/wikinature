@@ -9,14 +9,20 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/css/bootstrap.min.css" integrity="sha384-MIwDKRSSImVFAZCVLtU0LMDdON6KVCrZHyVQQj6e8wIEJkW4tvwqXrbMIya1vriY" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static "css/cover.css" %}">
 
+    {# 나눔스퀘어 폰트 #}
     <link rel="stylesheet" href="//cdn.rawgit.com/hiun/NanumSquare/master/nanumsquare.css">
-
+    {# 나눔바른고딕 폰트 #}
     <link rel="stylesheet" href="//cdn.jsdelivr.net/font-nanum/1.0/nanumbarungothic/nanumbarungothic.css">
+    {# 폰트어썸 폰트 #}
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/fontawesome/4.6.3/css/font-awesome.min.css">
 
     <style>
+        body{background-color: lightgrey}
         @import url(//cdn.jsdelivr.net/font-nanum/1.0/nanumbarungothic/nanumbarungothic.css);
         h1, h2, h3, h4, h5{font-family: 'Nanum Square'; font-weight: bold;}
-        p{font-family: 'Nanum Barungothic'; font-size: medium;}
+        h3, h4, h5{font-size: medium}
+        p{font-family: 'Nanum Barungothic'; font-size: small;}
+
     </style>
 </head>
 <body>
@@ -40,25 +46,11 @@
         {# 파일을 업로드 하지 않았을 경우 #}
 
             <section class="inner cover">
-            <h1 class="cover-heading">여러분의 시간을 절약하세요!</h1><br>
-            <div class="row lead">
-                <div class="col-sm-6">
-                    <div class="card">
-                    <div class="card-block">
-                        <h3 class="card-title">절약하세요</h3>
-                        <p class="card-text">식물 이름이 있는 엑셀 파일을 업로드 하시고 식물 이름의 위치를 알려주시면 나머진 다 알아서 합니다!</p>
-                    </div>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="card">
-                    <div class="card-block">
-                        <h3 class="card-title">절약하세요</h3>
-                        <p class="card-text">식물 이름이 있는 엑셀 파일을 업로드 하시고 식물 이름의 위치를 알려주시면 나머진 다 알아서 합니다!</p>
-                    </div>
-                    </div>
-                </div>
-            </div>
+            <h1 class="cover-heading">NameChecker<br>쉽고 빠른 식물학명 조회 서비스!</h1><br>
+
+            {# 프로젝트 설명 페이지 #}
+            {% include 'check/PR_project.html' %}
+
             <p class="lead">이명,국명을 국가표준식물목록에서 검색하여 정확한 학명과 식물 정보를 찾아드립니다!</p>
             {{ test }}
             {# 오류 메세지 출력 #}
