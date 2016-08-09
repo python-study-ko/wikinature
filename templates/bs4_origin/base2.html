@@ -8,15 +8,16 @@
         <link rel="stylesheet" href="cover.css">
         
         <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
-        <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
+		<link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
         
         <link rel="stylesheet" href="//cdn.rawgit.com/hiun/NanumSquare/master/nanumsquare.css">
         
         <style>
             h1, h2, h3, h4, h5{font-family: 'Nanum Square'; font-weight: bold;}
-            #dropzone{border-style: dashed;}
-            #demo-upload{background: repeating-linear-gradient(45deg,lightgray,lightgray 10px,gray 10px,gray 20px); opacity: 0.8;}
-            #demo-upload:hover{background-color: whitesmoke;opacity: 0.5;}
+			.dropzone{border-style: dashed;
+						background: repeating-linear-gradient(45deg,lightgray,lightgray 10px,gray 10px,gray 20px);
+						opacity: 0.8;}
+            .dropzone:hover{background-color: whitesmoke;opacity: 0.5;}
             #dropzone-text{color: darkslategray;}
         </style>
 
@@ -43,8 +44,20 @@
           <section class="inner cover">
             <h1 class="cover-heading">여러분의 시간을 절약하세요!</h1>
             <p class="lead">이명,국명을 국가표준식물목록에서 검색하여 정확한 학명과 식물 정보를 찾아드립니다!</p>
+			
+		  <!--  다중폼 post 스크립트 -->
+			<script>
+			$(function(){
+			 $("#btn_submit").click(function(){
+				$.post("/upload", $(".postdata").serialzie(), function(data){
+
+			   });
+			 });
+			});
+			</script>
             
-            <form action="/upload">
+		  	<!-- 엑셀 정보 입력 폼 -->
+		  	<form class="postdata lead" action="/upload">
                 <div class="input-group">
                   <span class="input-group-addon" id="basic-addon2">시트 이름</span>
                   <input type="text" class="form-control" placeholder="ex)sheet1" aria-describedby="basic-addon1">
@@ -52,16 +65,16 @@
                     <input type="text" class="form-control" placeholder="ex)종명" aria-describedby="basic-addon1">
                 </div>
                 <br>
-                
-                
-                    <div class="dropzone form-control-file" id="demo-upload">
-                      <div class="dz-message needsclick"><h5 id="dropzone-text">여기에 엑셀 파일을 떨궈주시거나<br>이곳을 클릭해서 파일을 선택해주세요</h5></div>
-                    </div>
-                    
-                <div id="demo-upload">
-                </div>
-            </form>
-            <p class="lead">
+			</form>
+		  	<!-- 엑셀 파일 업로드 드롭존 -->
+			<form class="postdata dropzone" action="/upload">
+                <div class="dz-message needsclick"><h5 id="dropzone-text">여기에 엑셀 파일을 떨궈주시거나<br>이곳을 클릭해서 파일을 선택해주세요</h5></div>
+			</form>
+		  	<!-- post 전송 버튼 -->
+		  	<br>
+		  	<button type="button" class="btn btn-primary" id="btn_submit">업로드 하기</button>
+            
+		  	<p class="lead">
               올려주신 엑셀 파일은 저장되지 않으며 국,학명을 찾는 작업이 완료되면 자동 삭제 됩니다.
             </p>
           </section>
@@ -77,6 +90,7 @@
       </div>
 
     </div>
+	  	
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
