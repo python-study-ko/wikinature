@@ -1,95 +1,72 @@
-<!DOCTYPE html>
-<html lang="ko">
-{% load staticfiles %}
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/css/bootstrap.min.css" integrity="sha384-MIwDKRSSImVFAZCVLtU0LMDdON6KVCrZHyVQQj6e8wIEJkW4tvwqXrbMIya1vriY" crossorigin="anonymous">
-    <link rel="stylesheet" href="{% static "css/cover.css" %}">
+{% extends 'base_cover.html' %}
 
-    {# 나눔스퀘어 폰트 #}
-    <link rel="stylesheet" href="//cdn.rawgit.com/hiun/NanumSquare/master/nanumsquare.css">
-    {# 나눔바른고딕 폰트 #}
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-nanum/1.0/nanumbarungothic/nanumbarungothic.css">
-    {# 폰트어썸 폰트 #}
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/fontawesome/4.6.3/css/font-awesome.min.css">
+{# Start head #}
+    {% block meta %}{% endblock meta %}
+    {% block link %}{% endblock link %}
+    {% block title %}{{ block.super }}{% endblock title %}
+    {% block pagestyle %}{% endblock pagestyle %}
+    {% block headscript %}{% endblock headscript %}
+{# End head #}
 
-    <style>
-        body{background-color: lightgrey}
-        @import url(//cdn.jsdelivr.net/font-nanum/1.0/nanumbarungothic/nanumbarungothic.css);
-        h1, h2, h3, h4, h5{font-family: 'Nanum Square'; font-weight: bold;}
-        h3, h4, h5{font-size: medium}
-        p{font-family: 'Nanum Barungothic'; font-size: small;}
+{# Start body #}
+    {# 페이지 최상단 네비구역 #}
+    {% block header %}{{ block.super }}{% endblock header %}
 
-    </style>
-</head>
-<body>
+    {# 페이지 본문 #}
+    {% block section %}
+        <h1 class="cover-heading">NameChecker<br>쉽고 빠른 식물학명 조회 서비스!</h1><br>
 
-<div class="site-wrapper">
+        {# 프로젝트 설명 페이지 #}
+        {% include 'check/PR_project.html' %}
 
-    <div class="site-wrapper-inner">
+        <p class="lead">{{ test }}</p>
+        {# 오류 메세지 출력 #}
+        {% if message %}
+            <div class="lead alert alert-warning" role="alert">
+                <strong>Warning!</strong> {{ message }}
+            </div>
+        {% endif %}
+        <p class="lead">{{ form.non_field_errors }}</p>
 
-        <div class="cover-container">
-
-            <header class="masthead clearfix">
-                <div class="inner">
-                    <h3 class="masthead-brand">WikiNature</h3>
-                    <nav class="nav nav-masthead">
-                    <a class="nav-link active" href="{% url 'main:index' %}">Home</a>
-                    <a class="nav-link" href="#">Features</a>
-                    <a class="nav-link" href="#">Contact</a>
-                    </nav>
-                </div>
-            </header>
         {# 파일을 업로드 하지 않았을 경우 #}
+        {% if upload == 'no' %}
 
-            <section class="inner cover">
-            <h1 class="cover-heading">NameChecker<br>쉽고 빠른 식물학명 조회 서비스!</h1><br>
+            <form action="/check/" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="input-group">
 
-            {# 프로젝트 설명 페이지 #}
-            {% include 'check/PR_project.html' %}
+                    <span class="input-group-addon" id="basic-addon2">시트 이름</span>
+                    <input id="sheetname" name="sheetname" type="text" class="form-control" placeholder="ex)sheet1" aria-describedby="basic-addon1">
+                    <p>{{ form.sheetname.errors }} </p>
 
-            <p class="lead">이명,국명을 국가표준식물목록에서 검색하여 정확한 학명과 식물 정보를 찾아드립니다!</p>
-            {{ test }}
-            {# 오류 메세지 출력 #}
-            {% if message %}
-                <div class="alert alert-warning" role="alert">
-                    <strong>Warning!</strong> {{ message }}
+                    <span class="input-group-addon" id="basic-addon2">머리글 이름</span>
+                    <input id="rowname" name="rowname" type="text" class="form-control" placeholder="ex)종명" aria-describedby="basic-addon1">
+                    <p>{{ form.rowname.errors }}</p>
+
+                    <span class="input-group-addon" id="basic-addon2">머리글 위치</span>
+                    <input id="rownum" name="rownum" type="text" size="8" class="form-control" placeholder="ex)1" aria-describedby="basic-addon1">
+                    <p>{{ form.rownum.errors }} </p>
+
                 </div>
-            {% endif %}
-            <p class="lead">{{ form.non_field_errors }}</p>
+                {# 파일 업로드 #}
+                {{ form.file.errors }}
+                <label class="control-label">Upload File From Folder</label>
+                <input id="file" name="file" type="file" class="file-loading">
+                <input type="submit" value="업로드하기">
+            </form>
+        {% else %}
+            <a href="{% url 'check:index' %}">다시 해보기</a>
+        {% endif %}
 
-            {# 파일을 업로드 하지 않았을 경우 #}
-            {% if upload == 'no' %}
+    {% endblock section %}
 
-                <form action="/check/" method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class="input-group">
+    {# 페이지 최하단 사이트정보 구역 #}
+    {% block footer %}{{ block.super }}{% endblock footer %}
 
-                        <span class="input-group-addon" id="basic-addon2">시트 이름</span>
-                        <input id="sheetname" name="sheetname" type="text" class="form-control" placeholder="ex)sheet1" aria-describedby="basic-addon1">
-                        <p>{{ form.sheetname.errors }} </p>
+    {# body 최하단에서 호출할 스크립트 #}
+    {% block bodyscript %}{% endblock bodyscript %}
+{# End body #}
 
-                        <span class="input-group-addon" id="basic-addon2">머리글 이름</span>
-                        <input id="rowname" name="rowname" type="text" class="form-control" placeholder="ex)종명" aria-describedby="basic-addon1">
-                        <p>{{ form.rowname.errors }}</p>
-
-                        <span class="input-group-addon" id="basic-addon2">머리글 위치</span>
-                        <input id="rownum" name="rownum" type="text" size="8" class="form-control" placeholder="ex)1" aria-describedby="basic-addon1">
-                        <p>{{ form.rownum.errors }} </p>
-
-                    </div>
-                    {# 파일 업로드 #}
-                    {{ form.file.errors }}
-                    <label class="control-label">Upload File From Folder</label>
-                    <input id="file" name="file" type="file" class="file-loading">
-                    <input type="submit" value="업로드하기">
-                </form>
-            {% else %}
-                <a href="{% url 'check:index' %}">다시 해보기</a>
-            {% endif %}
 
             {% comment %}
             <!-- 엑셀 정보 입력 폼 -->
@@ -113,28 +90,5 @@
 
 
 
-            </section>
 
 
-
-            <footer class="mastfoot">
-                <div class="inner">
-                    <p>Cover template for <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
-                </div>
-            </footer>
-
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/js/bootstrap.min.js" integrity="sha384-ux8v3A6CPtOTqOzMKiuo3d/DomGaaClxFYdCu2HPMBEkf6x2xiDyJ7gkXU0MWwaD" crossorigin="anonymous"></script>
-  </body>
-</html>

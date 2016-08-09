@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{# ---head 시작----------------- #}
+
+    {# head tag - link,meta등등 #}
+    {% block head %}
+        {# og태그등 개별 페이지에 들어갈 메타정보 #}
+        {% block meta %}{% endblock meta %}
+
+        {# 메인 테마 css파일 #}<link rel="stylesheet" href="{% static "css/cover.css" %}">
+
+        {# 나눔스퀘어 폰트 #}<link rel="stylesheet" href="//cdn.rawgit.com/hiun/NanumSquare/master/nanumsquare.css">
+        {# 나눔바른고딕 폰트 #}<link rel="stylesheet" href="//cdn.jsdelivr.net/font-nanum/1.0/nanumbarungothic/nanumbarungothic.css">
+        {# 폰트어썸 폰트 #}<link rel="stylesheet" href="//cdn.jsdelivr.net/fontawesome/4.6.3/css/font-awesome.min.css">
+
+        {# 개별 페이지에 적용될 link 태그 #}
+        {% block link %}{% endblock link %}
+    {% endblock head %}
+
+
+    {% block title %}{{ block.super }}{% endblock title %}
+
+    {% block style %}
+        {# cover 테마 적용할 범용적인 css #}
+        body{background-color: lightgrey}
+        h1, h2, h3, h4, h5{font-family: 'Nanum Square'; font-weight: bold;}
+        h3, h4, h5{font-size: medium}
+        p{font-family: 'Nanum Barungothic'; font-size: small;}
+
+        {# 개별 페이지 css - 각 페이지에선 아래 블록으로 스타일시트 확장 #}
+        {% block pagestyle %}{% endblock %}
+
+    {% endblock style %}
+
+    {# head태그에 달아야하는 스크립트 #}
+    {% block headscript %}{% endblock %}
+
+{# ---head 끝------------------- #}
+
+
+{# ---body 시작------------------ #}
+{# 이 템플릿은 전체 레이아웃과 공통 컴포넌트 요소만 정의 #}
+{% block body %}
+    <!-- Load Facebook SDK for JavaScript -->
+	<div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/ko_KR/sdk.js#xfbml=1&version=v2.7";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+
+<div class="site-wrapper">
+    <div class="site-wrapper-inner">
+        <div class="cover-container">
+
+        {# 웹페이지 최상단 네비게이션 구역 #}
+            <header class="masthead clearfix">
+                <div class="inner">
+                    {% block header %}
+                    <h3 class="masthead-brand">WikiNature</h3>
+                    <nav class="nav nav-masthead">
+                    <a class="nav-link active" href="{% url 'main:index' %}">Home</a>
+                    <a class="nav-link" href="#">Features</a>
+                    <a class="nav-link" href="#">Contact</a>
+                    </nav>
+                    {% endblock header %}
+                </div>
+            </header>
+
+        {# 웹페이지 본문 구역 #}
+            <section class="inner cover">{% block section %}{% endblock section %}</section>
+
+        {# 웹페이지 최하단 사이트 정보 구역 #}
+            <footer class="mastfoot">
+                <div class="inner">
+                    {% block footer %}
+                    <p>Cover template for <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+                    {% endblock footer %}
+                </div>
+            </footer>
+
+        </div>
+      </div>
+    </div>
+
+{% endblock body %}
+
+{# 페이지 맨 아래에서 호출할 스크립트 #}
+{% block bodyscript %}{% endblock %}
+{# ---body 끝-------------------- #}

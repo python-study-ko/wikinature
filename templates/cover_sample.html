@@ -1,0 +1,27 @@
+{% extends 'base_cover.html' %}
+{% load staticfiles %}
+
+
+{# Start head #}
+    {% block meta %}{% endblock meta %}
+    {% block link %}{% endblock link %}
+    {% block title %}{{ super }}{% endblock title %}
+    {% block pagestyle %}{% endblock pagestyle %}
+    {% block headscript %}{% endblock headscript %}
+{# End head #}
+
+{# Start body #}
+    {# 페이지 최상단 네비구역 #}
+    {% block header %}{{ super }}{% endblock header %}
+
+    {# 페이지 본문 #}
+    {% block section %}
+
+    {% endblock section %}
+
+    {# 페이지 최하단 사이트정보 구역 #}
+    {% block footer %}{{ super }}{% endblock footer %}
+
+    {# body 최하단에서 호출할 스크립트 #}
+    {% block bodyscript %}{% endblock bodyscript %}
+{# End body #}
