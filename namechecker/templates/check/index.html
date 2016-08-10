@@ -4,7 +4,9 @@
     {% block meta %}{% endblock meta %}
     {% block link %}{% endblock link %}
     {% block title %}{{ block.super }}{% endblock title %}
-    {% block pagestyle %}{% endblock pagestyle %}
+    {% block pagestyle %}
+        #main-card{padding-left: 7px;padding-right: 7px;}
+    {% endblock pagestyle %}
     {% block headscript %}{% endblock headscript %}
 {# End head #}
 

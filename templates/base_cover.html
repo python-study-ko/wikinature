@@ -22,11 +22,21 @@
     {% block title %}{{ block.super }}{% endblock title %}
 
     {% block style %}
-        {# cover 테마 적용할 범용적인 css #}
-        body{background-color: lightgrey}
-        h1, h2, h3, h4, h5{font-family: 'Nanum Square'; font-weight: bold;}
-        h3, h4, h5{font-size: medium}
-        p{font-family: 'Nanum Barungothic'; font-size: small;}
+    {# cover 테마 적용할 범용적인 css #}
+        {# 폰트 #}
+        h1, h2, h3, h4, h5{font-family: 'Nanum Square'; }
+        h1, h2{ font-weight: bold; }
+        h3, h4, h5{ font-weight: normal; }
+        p{font-family: 'Nanum Barungothic'; font-weight: normal; font-size: 0.75em; }
+
+
+        {# 레이아웃,컬러 #}
+        body{background-color: #95AB63}
+        div[class="card"]{  background: #BDD684;
+                            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                        }
+
+
 
         {# 개별 페이지 css - 각 페이지에선 아래 블록으로 스타일시트 확장 #}
         {% block pagestyle %}{% endblock %}
