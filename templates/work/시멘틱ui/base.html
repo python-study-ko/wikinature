@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Standard Meta -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+    <!-- Site Properties -->
+    <title>Homepage - Semantic</title>
+    <script src="https://cdn.jsdelivr.net/g/jquery@3.1.0,semantic-ui@2.2.2"></script>
+    <script src="https://cdn.jsdelivr.net/trianglify/1.0.0/trianglify.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.2/semantic.min.css">
+    <link rel="stylesheet" href="wikinature_main.css">
+    <script>
+        $(document).ready(function() {
+            // fix menu when passed
+            $('.masthead').visibility({
+                once: false,
+                onBottomPassed: function() {$('.fixed.menu').transition('fade in');},
+                onBottomPassedReverse: function() {$('.fixed.menu').transition('fade out');}
+            });
+
+            // create sidebar and attach to menu open
+            $('.ui.sidebar').sidebar('attach events', '.toc.item');
+        });
+    </script>
+</head>
+<body>
+
+<!-- Following Menu -->
+<div class="ui large top fixed hidden menu">
+    <div class="ui container">
+        <a class="active item">WikiNature</a>
+    <div class="right menu">
+        <a class="active item">What?</a>
+        <a class="item">How?</a>
+        <a class="item">DoIt!</a>
+        <a class="item">MadeBy</a>
+    </div>
+  </div>
+</div>
+
+<!-- Sidebar Menu -->
+<div class="ui vertical inverted sidebar menu">
+    <a class="active item">What?</a>
+    <a class="item">How?</a>
+    <a class="item">DoIt!</a>
+    <a class="item">MadeBy</a>
+</div>
+
+
+<!-- Page Contents -->
+<div class="pusher">
+    <div class="ui inverted vertical masthead center aligned segment" id="background1">
+        <header class="ui container">
+            <div class="ui large secondary inverted pointing menu">
+                <a class="item"><h1>WikiNature</h1></a>
+                <a class="toc item">WikiNature</a>
+                <a class="toc item"><i class="sidebar icon"></i></a>
+                <div class="right item">
+                    <a class="active item">What?</a>
+                    <a class="item">How?</a>
+                    <a class="item">DoIt!</a>
+                    <a class="item">MadeBy</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="ui text container">
+          <h1 class="ui inverted header">NameChecker</h1>
+          <h2>빠르고 정확한 식물 국,이명 확인 & 변환 서비스</h2>
+          <div class="ui huge primary button">사용법 톱아보기<i class="right arrow icon"></i></div>
+        </div>
+    </div>
+<section>
+    <div class="ui vertical stripe segment" id="background2">
+        <div class="ui middle aligned stackable grid container">
+            <div class="row">
+                <div class="eight wide column">
+                    <h3 class="ui header">We Help Companies and Companions</h3>
+                    <p>We can give your company superpowers to do things that they never thought possible. Let us delight your customers and empower your needs...through pure data analytics.</p>
+                    <h3 class="ui header">We Make Bananas That Can Dance</h3>
+                    <p>Yes that's right, you thought it was the stuff of dreams, but even bananas can be bioengineered.</p>
+                </div>
+                <div class="six wide right floated column">
+                    <img src="assets/images/wireframe/white-image.png" class="ui large bordered rounded image">
+                </div>
+            </div>
+            <div class="row">
+                <div class="center aligned column">
+                    <a class="ui huge button">Check Them Out</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ui vertical stripe segment" id="background3">
+        <div class="ui text container">
+            <h3 class="ui header">식물명 매칭&변환 요청하기</h3>
+            <p>아래 양식에 맞춰 자료를 전달해주시면 바로 작업을 해드립니다.</p>
+            <div class="ui three top attached steps">
+                <div class="step">
+                    <i class="truck icon"></i>
+                    <div class="content">
+                        <div class="title">업로드</div>
+                        <div class="description">작업을 요청할 파일을 업로드 하세요</div>
+                    </div>
+                </div>
+                <div class="active step">
+                    <i class="payment icon"></i>
+                    <div class="content">
+                        <div class="title">요청할 작업 선택</div>
+                        <div class="description">식</div>
+                    </div>
+                </div>
+                <div class="disabled step">
+                    <i class="info icon"></i>
+                    <div class="content">
+                        <div class="title">Confirm Order</div>
+                        <div class="description">Verify order details</div>
+                    </div>
+                </div>
+            </div>
+            <div class="ui attached segment">
+                <p></p>
+            </div>
+        </div>
+    </div>
+<script>
+    // 배경화면 생성을 위한 변수 설정
+    var background1 = $('#background1');
+    var background2 = $('#background2');
+    var background3 = $('#background3');
+    // 브라우저 크기 변경시 자동으로 배경 재생성
+	$(window).resize(function(){
+	    // 화면 높이에 맞춰 태그 높이 변경
+        background1.css('height',window.innerHeight);
+        background2.css('height',window.innerHeight);
+        background3.css('height',window.innerHeight);
+
+        // 배경 생성
+		var pattern1 = Trianglify({
+			width: window.innerWidth,
+			height: window.innerHeight,
+			cell_size: 70,
+			variance: "0.9",
+			x_colors: 'Greens',
+		});
+        var pattern2 = Trianglify({
+			width: window.innerWidth,
+			height: window.innerHeight,
+			cell_size: 70,
+			variance: "0.9",
+			x_colors: 'Greens',
+		});
+        var pattern3 = Trianglify({
+			width: window.innerWidth,
+			height: window.innerHeight,
+			cell_size: 70,
+			variance: "0.9",
+			x_colors: 'Greens',
+		});
+
+        // 배경 url
+		var BackImg1 = pattern1.canvas().toDataURL();
+        var BackImg2 = pattern2.canvas().toDataURL();
+		var BackImg3 = pattern3.canvas().toDataURL();
+
+        // 배경 적용
+		$("#background1").css('backgroundImage','url('+BackImg1+')');
+        $("#background2").css('backgroundImage','url('+BackImg2+')');
+        $("#background3").css('backgroundImage','url('+BackImg3+')');
+	}).resize();
+</script>
+</section>
+
+<footer class="ui inverted vertical footer segment">
+    <div class="ui container">
+        <div class="ui stackable inverted divided equal height stackable grid">
+            <div class="seven wide column">
+            <h4 class="ui inverted header">Footer Header</h4>
+            <p>Extra space for a call to action inside the footer that could help re-engage users.</p>
+        </div>
+      </div>
+    </div>
+</footer>
+</div>
+
+</body>
+
+</html>
