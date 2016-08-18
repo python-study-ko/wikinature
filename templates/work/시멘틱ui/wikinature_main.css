@@ -4,6 +4,9 @@
 .row {
   margin-top: 2em;
 }
+.ui.secondary.inverted.pointing.menu {
+    border-width: 0px;
+}
 
 .masthead.segment {
   min-height: 700px;
