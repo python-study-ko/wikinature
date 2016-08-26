@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{# ---head 시작----------------- #}
+
+{# head tag - link,meta등등 #}
+{% block head %}
+    {# 단일 페이지용 CSS #}
+    <link rel="stylesheet" href="{% static 'css/wikinature_singlepage.css'%}">
+
+    {# 웹 폰트 #}
+    {# 나눔스퀘어 폰트 #}
+    <link rel="stylesheet" href="//cdn.rawgit.com/hiun/NanumSquare/master/nanumsquare.css">
+    {# 나눔바른고딕 폰트 #}
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-nanum/1.0/nanumbarungothic/nanumbarungothic.css">
+    <style>
+        h1, h2, h3, h4, h5 {
+            font-family: 'Nanum Square';
+        }
+
+        h1, h2 {
+            font-weight: bold;
+        }
+
+        h3, h4, h5 {
+            font-weight: normal;
+        }
+
+        p {
+            font-family: 'Nanum Barungothic';
+            font-weight: normal;
+            font-size: 1em;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            // fix menu when passed
+            $('.masthead').visibility({
+                once: false,
+                onBottomPassed: function () {
+                    $('.fixed.menu').transition('fade in');
+                },
+                onBottomPassedReverse: function () {
+                    $('.fixed.menu').transition('fade out');
+                }
+            });
+
+            // create sidebar and attach to menu open
+            $('.ui.sidebar').sidebar('attach events', '.toc.item');
+
+        });
+        // 화면 이동 스크립트
+        function scrollLink(obj) {
+            var position = $("#background" + obj).offset();
+            $('html, body').animate({scrollTop: position.top}, 600);
+        }
+        ;
+    </script>
+    {# 개별 페이지 커스텀 블럭 #}
+    {% block head_meta %}{% endblock head_meta %}
+    <title>{% block title %}WIKINATURE{% endblock title %}</title>
+    {% block head_link %}{% endblock head_link %}
+    {% block head_style %}{% endblock head_style %}
+    {% block head_script %}{% endblock head_script %}
+{% endblock head %}
+
+{# ---head 끝------------------- #}
+
+
+{# ---body 시작------------------ #}
+{# 이 템플릿은 전체 레이아웃과 공통 컴포넌트 요소만 정의 #}
+{% block body %}
+    <!-- Following Menu -->
+    <div class="ui large top fixed hidden menu">
+        <div class="ui container">
+            <a class="active item">WikiNature</a>
+            <div class="right menu">
+                {% block page_menu %}{% endblock %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar main Menu -->
+    <div class="ui vertical inverted sidebar menu">
+        <a class="item" href="//blog.everypython.com">blog</a>
+        <a class="item" href="">feedback</a>
+        <a class="item" href="//github.com/wesky93">MadeBy</a>
+    </div>
+
+    <!-- Page Contents -->
+    <div class="pusher">
+        <div class="ui inverted vertical masthead center aligned segment" id="background1">
+            <header class="ui container">
+                <div class="ui large secondary inverted pointing menu">
+                    <a class="item"><h1>WikiNature</h1></a>
+                    <a class="toc item">WikiNature</a>
+                    <a class="toc right item"><i class="sidebar icon"></i></a>
+                    <div class="right item">
+                        <a class="item" href="//blog.everypython.com">blog</a>
+                        <a class="item" href="">feedback</a>
+                        <a class="item" href="//github.com/wesky93">MadeBy</a>
+                    </div>
+                </div>
+            </header>
+
+            <div class="ui text container">
+                {# 페이지 최상단 컨텐츠 #}
+                {% block head_section %}{% endblock %}
+            </div>
+        </div>
+        <section>
+            {# 컨텐츠 본문 #}
+            {% block main_section %}{% endblock %}
+        </section>
+
+        <footer class="ui inverted vertical footer segment">
+            {% block footer %}{% endblock %}
+        </footer>
+    </div>
+{% endblock body %}
+
+{# 페이지 맨 아래에서 호출할 스크립트 #}
+{% block body_script %}{% endblock body_script %}
+{# ---body 끝-------------------- #}

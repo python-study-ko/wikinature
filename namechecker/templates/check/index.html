@@ -1,81 +1,221 @@
-{% extends 'base_cover.html' %}
+{% extends 'base_singlepage.html' %}
 
-{# Start head #}
-    {% block meta %}{% endblock meta %}
-    {% block link %}{% endblock link %}
-    {% block title %}{{ block.super }}{% endblock title %}
-    {% block pagestyle %}
-        #main-card{padding-left: 7px;padding-right: 7px;}
-    {% endblock pagestyle %}
-    {% block headscript %}{% endblock headscript %}
-{# End head #}
+{# head 영역 #}
+{% block head_meta %}{% endblock head_meta %}
+{% block title %}WIKINATURE{% endblock title %}
+{% block head_link %}{% endblock head_link %}
+{% block head_style %}{% endblock head_style %}
+{% block head_script %}{% endblock head_script %}
 
-{# Start body #}
-    {# 페이지 최상단 네비구역 #}
-    {% block header %}{{ block.super }}{% endblock header %}
 
-    {# 페이지 본문 #}
-    {% block section %}
-        <h1 class="cover-heading">NameChecker<br>쉽고 빠른 식물학명 조회 서비스!</h1><br>
+{# body 영역 #}
+{# 페이지 전용 메뉴(화면 이동용 메뉴) #}
+{% block page_menu %}
+    <a class="item" onclick="scrollLink('1')">What?</a>
+    <a class="item" onclick="scrollLink('2')">How?</a>
+    <a class="item" onclick="scrollLink('3')">DoIt!</a>
+{% endblock %}
 
-        {# 프로젝트 설명 페이지 #}
-        {% include 'check/PR_project.html' %}
-
-        <p class="lead">{{ test }}</p>
-        {# 오류 메세지 출력 #}
-        {% if message %}
-            <script type="text/javascript">
-                alert("{{ message }}")
-            </script>
-            {% comment %}
-            <div class="lead alert alert-warning" role="alert">
-                <strong>오류!</strong><p>{{ message }}</p>
-            </div>
-            {% endcomment %}
-        {% endif %}
-        <p class="lead">{{ form.non_field_errors }}</p>
-
-        {# 파일을 업로드 하지 않았을 경우 #}
-        {% if upload == 'no' %}
-
-            <form action="/check/" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <div class="input-group">
-
-                    <span class="input-group-addon" id="basic-addon2">시트 이름</span>
-                    <input id="sheetname" name="sheetname" type="text" class="form-control" placeholder="ex)sheet1" aria-describedby="basic-addon1">
-                    <p>{{ form.sheetname.errors }} </p>
-
-                    <span class="input-group-addon" id="basic-addon2">머리글 이름</span>
-                    <input id="rowname" name="rowname" type="text" class="form-control" placeholder="ex)종명" aria-describedby="basic-addon1">
-                    <p>{{ form.rowname.errors }}</p>
-
-                    <span class="input-group-addon" id="basic-addon2">머리글 위치</span>
-                    <input id="rownum" name="rownum" type="text" size="8" class="form-control" placeholder="ex)1" aria-describedby="basic-addon1">
-                    <p>{{ form.rownum.errors }} </p>
-
+{# 페이지 본문 최상단(보통 페이지 소개용) #}
+{% block head_section %}
+    <div class="ui text container">
+        <h1 class="ui inverted header">NameChecker</h1>
+        <h3 class="ui inverted header">현재 베타서비스 중입니다.</h3>
+        <h2>빠르고 정확한 식물 국,이명 확인 & 변환 서비스</h2>
+        <div class="ui row mobileoff">
+            <div class="ui two cards">
+                <div class="ui raised card">
+                    <div class="content">
+                        <div class="header">정확합니다</div>
+                        <div class="description"><p class="ui ">단순 식물목록이 아닌 국가표준목록 API를 이용한 방식이기에 최신의 정보가 정확하게
+                            반영됩니다.</p></div>
+                    </div>
                 </div>
-                {# 파일 업로드 #}
-                {{ form.file.errors }}
-                <label class="control-label">Upload File From Folder</label>
-                <input id="file" name="file" type="file" class="file-loading">
-                <input type="submit" value="업로드하기">
+                <div class="ui raised card">
+                    <div class="content">
+                        <div class="header">안전합니다</div>
+                        <div class="description"><p>작업이 완료되면 업로드된 파일은 삭제됩니다.</p></div>
+                    </div>
+                </div>
+                <div class="ui raised card">
+                    <div class="content">
+                        <div class="header">빠릅니다</div>
+                        <div class="description"><p>모든 식물이 아닌 중복을 제거한 식물에 대해 API요청을 하기에 속도가 빠릅니다.</p></div>
+                    </div>
+                </div>
+                <div class="ui raised card">
+                    <div class="content">
+                        <div class="header">무료입니다</div>
+                        <div class="description"><p>이 페이지를 보실수 있는한 무료로 제공할 예정입니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {# 모바일로 접속했을 경우 #}
+        <div class="ui message mobileon">죄송합니다.. 해당 서비스는 모바일을 지원하지 않습니다.</div>
+        <div class="row">
+            <div class="center aligned column">
+                <div class="ui huge primary button" onclick="scrollLink('2')">사용법 알아보기 &nbsp;<i
+                        class="down arrow icon"></i></div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+
+{# 페이지 본문 #}
+{% block main_section %}
+    {# 네입체커 사용법 설명 화면 #}
+    <div class="ui vertical stripe segment" id="background2">
+        <div class="ui middle aligned stackable grid container">
+            <div class="row">
+                <div class="sixteen wide column">
+                    <h3 class="ui inverted header">파일을 업로드 합니다.</h3>
+                    <p>원하는 파일을 선택해주시고 식물목록이 있은 시트명,식물목록 머리열 위치 및 이름을 입력하시고 업로드 해주세요</p>
+                    <h3 class="ui inverted small header">업로드후 조금만 기다리시면 파일을 다운로드 받을 수 있습니다.</h3>
+                    <p>식물 목록이 많을 경우 네트워크 환경에 따라 5분이상 걸릴 수 있으니 기다려 주시면 감사드리겠습니다.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="center aligned column">
+                    <div class="ui huge primary button" onclick="scrollLink('3')">사용해 보기</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# 네임체커 파일 업로드 화면 #}
+    <div class="ui vertical stripe segment grid" id="background3">
+        <div class="ui text container">
+            <h3 class="ui inverted header">식물명 매칭&변환 요청하기</h3>
+            <p class="ui inverted header">자료를 업로드하시고 기다려 주시면 작업 완료된 파일을 다운로드 받을수 있습니다.</p>
+            <div class="ui three top attached steps mobileoff">
+                <div class="active step">
+                    <i class="truck icon"></i>
+                    <div class="content">
+                        <div class="title">업로드</div>
+                        <div class="description">작업요청할 파일 및 정보를 선택해 주세요.</div>
+                    </div>
+                </div>
+                <div class="disabled step">
+                    <i class="wizard icon"></i>
+                    <div class="content">
+                        <div class="title">필요한 정보 선택</div>
+                        <div class="description">준비중입니다.</div>
+                    </div>
+                </div>
+                <div class="disabled step">
+                    <i class="download icon"></i>
+                    <div class="content">
+                        <div class="title">자료 다운받기</div>
+                        <div class="description">베타에서는 업로드 이후 바로 자료를 다운받을 수 있습니다.</div>
+                    </div>
+                </div>
+            </div>
+            <form class="ui form attached segment mobileoff" enctype="multipart/form-data" action="/test">
+                <div class="ui three column grid">
+                    <div class="one column field">
+                        <label>시트 이름</label>
+                        <input type="text" name="test" placeholder="ex) sheet1">
+                    </div>
+                    <div class="one column field">
+                        <label>머리열 이름</label>
+                        <input type="text" placeholder="ex) 종명">
+                    </div>
+                    <div class="one column field">
+                        <label>머리열 위치</label>
+                        <input type="text" placeholder="ex) 1">
+                    </div>
+                    <div class="two column inline field">
+                        <label>업로드할 파일을 선택하세요</label>
+                        <input type="file">
+                    </div>
+                    <div class="right floated one column">
+                        <div class="ui  buttons fild">
+                            <button class="ui button" type="reset">
+                                <i class="undo icon"></i>다시하기
+                            </button>
+                            <div class="or"></div>
+                            <button class="ui primary button" type="submit">
+                                <i class="cloud upload icon"></i>업로드
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
             </form>
-        {% else %}
-            <a href="{% url 'check:index' %}">다시 해보기</a>
-        {% endif %}
+            <div class="ui attached segment mobileoff"><p style="font-size: small">아직 베타 버전이라 부족한 부분이 많습니다. 차근차근 업데이트를 진행해 나가겠습니다.</p>
+            </div>
+            {# 모바일로 접속했을 경우 #}
+            <div class="ui message mobileon">죄송합니다.. 해당 서비스는 모바일을 지원하지 않습니다.</div>
+        </div>
+    </div>
+{% endblock %}
 
-    {% endblock section %}
+{# footer #}
+{% block footer %}{% endblock %}
 
-    {# 페이지 최하단 사이트정보 구역 #}
-    {% block footer %}{{ block.super }}{% endblock footer %}
 
-    {# body 최하단에서 호출할 스크립트 #}
-    {% block bodyscript %}{% endblock bodyscript %}
+{# body 최하단에서 호출할 스크립트 #}
+{% block body_script %}
+    {# 각 화면별 배경화면 생성 스크립트 #}
+    <script src="//cdn.jsdelivr.net/trianglify/1.0.0/trianglify.min.js"></script>
+    <script>
+        // 배경화면 생성을 위한 변수 설정
+        background1 = $('#background1');
+        background2 = $('#background2');
+        background3 = $('#background3');
+        // 브라우저 크기 변경시 자동으로 배경 재생성
+        $(window).resize(function () {
+            // 화면 높이에 맞춰 태그 높이 변경
+            background1.css('height', window.innerHeight);
+            background2.css('height', window.innerHeight);
+            background3.css('height', window.innerHeight);
+
+            // 배경 생성
+            var pattern1 = Trianglify({
+                width: window.innerWidth,
+                height: window.innerHeight,
+                cell_size: 70,
+                variance: "0.9",
+                x_colors: ['#005a32', '#238b45', '#41ab5d', '#74c476', '#a1d99b', '#c7e9c0', '#e5f5e0', '#f7fcf5'],
+                y_colors: ['#005a32', '#238b45', '#41ab5d', '#74c476', '#a1d99b', '#c7e9c0', '#e5f5e0', '#f7fcf5'],
+
+            });
+            var pattern2 = Trianglify({
+                width: window.innerWidth,
+                height: window.innerHeight,
+                cell_size: 70,
+                variance: "0.9",
+                y_colors: ['#f7fbff', '#deebf7', '#c6dbef', '#9ecae1', '#6baed6', '#4292c6', '#2171b5', '#084594'],
+                x_colors: ['#084594', '#2171b5', '#4292c6', '#6baed6', '#9ecae1', '#c6dbef', '#deebf7', '#f7fbff'],
+            });
+            var pattern3 = Trianglify({
+                width: window.innerWidth,
+                height: window.innerHeight,
+                cell_size: 70,
+                variance: "0.9",
+                x_colors: ['#8c2d04', '#d94801', '#f16913', '#fd8d3c', '#fdae6b', '#fdd0a2', '#fee6ce', '#fff5eb'],
+                y_colors: ['#8c2d04', '#d94801', '#f16913', '#fd8d3c', '#fdae6b', '#fdd0a2', '#fee6ce', '#fff5eb'],
+            });
+
+            // 배경 url
+            var BackImg1 = pattern1.canvas().toDataURL();
+            var BackImg2 = pattern2.canvas().toDataURL();
+            var BackImg3 = pattern3.canvas().toDataURL();
+
+            // 배경 적용
+            $("#background1").css('backgroundImage', 'url(' + BackImg1 + ')');
+            $("#background2").css('backgroundImage', 'url(' + BackImg2 + ')');
+            $("#background3").css('backgroundImage', 'url(' + BackImg3 + ')');
+        }).resize();
+    </script>
+{% endblock body_script %}
 {# End body #}
 
 
-            {% comment %}
+{% comment %}
             <!-- 엑셀 정보 입력 폼 -->
             <form class="lead">
             <div class="input-group">
