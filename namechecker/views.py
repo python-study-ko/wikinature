@@ -1,6 +1,7 @@
 from django.views.generic import View
 from django.template.loader import render_to_string
 from django.http import HttpResponse, HttpResponseRedirect
+from datetime import datetime
 from django.shortcuts import render
 import os
 from .forms import ImportFile
@@ -43,11 +44,20 @@ class Index(View):
                     target = Checker()
                     target.setdata(file,sheet_name,row_name,row_num)
                     target.search()
-                    file = target.file
-                    upload = 'yes'
-                    response = HttpResponse(my_data, content_type='application/vnd.ms-excel')
-                    response['Content-Disposition'] = 'attachment; filename="foo.xls"'
-                    return response
+                    file_name = '{} wikinature.xlsx'.format(datetime.now())
+                    target.file.save(file_name)
+                    try:
+                        with open(file_name,'rb') as f:
+                            upload = 'yes'
+                            response = HttpResponse(f.read(), content_type='application/vnd.ms-excel')
+                            response['Content-Disposition'] = 'attachment; filename="wikinature.xls"'
+                            return response
+                    except:
+                        pass
+
+                    finally:
+                        os.remove(file_name)
+
 
                 except EOFError as e:
                     upload = 'no'

@@ -118,19 +118,19 @@
                 <div class="ui three column grid">
                     <div class="one column field">
                         <label>시트 이름</label>
-                        <input type="text" name="test" placeholder="ex) sheet1">
+                        <input type="text" name="sheetname" placeholder="ex) sheet1">
                     </div>
                     <div class="one column field">
                         <label>머리열 이름</label>
-                        <input type="text" placeholder="ex) 종명">
+                        <input type="text" name="rowname" placeholder="ex) 종명">
                     </div>
                     <div class="one column field">
                         <label>머리열 위치</label>
-                        <input type="text" placeholder="ex) 1">
+                        <input type="text" name="rownum" placeholder="ex) 1">
                     </div>
                     <div class="two column inline field">
                         <label>업로드할 파일을 선택하세요</label>
-                        <input type="file">
+                        <input type="file" name="file">
                     </div>
                     <div class="right floated one column">
                         <div class="ui  buttons fild">
@@ -148,6 +148,7 @@
             </form>
             <div class="ui attached segment mobileoff"><p style="font-size: small">아직 베타 버전이라 부족한 부분이 많습니다. 차근차근 업데이트를 진행해 나가겠습니다.</p>
             </div>
+            <div class="ui message">{{ message }}</div>
             {# 모바일로 접속했을 경우 #}
             <div class="ui message mobileon">죄송합니다.. 해당 서비스는 모바일을 지원하지 않습니다.</div>
         </div>
