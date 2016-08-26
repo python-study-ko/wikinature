@@ -113,7 +113,8 @@
                     </div>
                 </div>
             </div>
-            <form class="ui form attached segment mobileoff" enctype="multipart/form-data" action="/test">
+            <form class="ui form attached segment mobileoff" enctype="multipart/form-data" action="/check/" method="post">
+                {% csrf_token %}
                 <div class="ui three column grid">
                     <div class="one column field">
                         <label>시트 이름</label>
