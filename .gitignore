@@ -92,6 +92,10 @@ ENV/
 # django 셋팅 파일
 settings.ini
 migrations/
+collect_static/
 # pycharm 셋팅
 .idea/
 
+"templates/work/\341\204\211\341\205\265\341\204\206\341\205\246\341\206\253\341\204\220\341\205\265\341\206\250ui.zip"
+test.xlsx
+templates/work/시멘틱ui.zip
