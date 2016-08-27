@@ -17,7 +17,9 @@ from django.conf.urls import url, include
 from django.contrib import admin
 
 urlpatterns = [
-    url(r'^', include('main.urls', namespace='main')),
-    url(r'^check/', include('namechecker.urls', namespace='check')),
+    # 할일: 베타 종료시 홈페이지 주소 따로 처리하기
+    # url(r'^', include('main.urls', namespace='main')),
+    # url(r'^check/', include('namechecker.urls', namespace='check')),
+    url(r'^', include('namechecker.urls', namespace='check')),
     url(r'^admin/', admin.site.urls),
 ]
