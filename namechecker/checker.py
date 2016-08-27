@@ -14,9 +14,12 @@ class Checker:
                     return {'index':col.col_idx , 'str':col.column }
 
         self.file = openpyxl.load_workbook(file)
-        self.sheet = self.file.get_sheet_by_name(sheet_name)
         self.row_num = row_num
         self.row_name = row_name
+        try:
+            self.sheet = self.file.get_sheet_by_name(sheet_name)
+        except KeyError as e:
+            raise e
         self.head_col = self.sheet.rows[row_num]
         self.head_row = findtarget(self.head_col,row_name)
         self.count_list = self.sheet.max_row

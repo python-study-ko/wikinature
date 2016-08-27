@@ -60,7 +60,7 @@ class Index(View):
                         os.remove(file_name)
 
 
-                except EOFError as e:
+                except Exception as e:
                     upload = 'no'
                     message = '지원하지 않는 엑셀 구조 입니다.관리자 에게 문의해 주세요  {}'.format(e)
 

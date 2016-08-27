@@ -89,7 +89,16 @@
     <div class="ui vertical stripe segment grid" id="background3">
         <div class="ui text container">
             <h3 class="ui inverted header">식물명 매칭&변환 요청하기</h3>
-            <p class="ui inverted header">자료를 업로드하시고 기다려 주시면 작업 완료된 파일을 다운로드 받을수 있습니다.</p>
+            {# <p class="ui inverted header">자료를 업로드하시고 기다려 주시면 작업 완료된 파일을 다운로드 받을수 있습니다.</p> #}
+            <div class="ui message small"><div class="ui header">테스트 해보기 <a href="https://s3.ap-northeast-2.amazonaws.com/wikinature/sample/sample.xlsx">샘플 파일</a></div>
+                        시트명: '1번지도' , 머리열 이름: '종명', 머리열 번호: '1'을 입력하시고 샘플 파일을 선택하여 업로드 해보세요!  </div>
+            {# 에러 메세지가 있을경우 #}
+            {% if message %}
+                <div class="ui message">{{ message }}</div>
+                <script>
+                    $('html, body').animate({scrollTop: $('#background3').offset().top}, 600);
+                </script>
+            {% endif %}
             <div class="ui three top attached steps mobileoff">
                 <div class="active step">
                     <i class="truck icon"></i>
@@ -113,7 +122,8 @@
                     </div>
                 </div>
             </div>
-            <form class="ui form attached segment mobileoff" enctype="multipart/form-data" action="/check/" method="post">
+            <form class="ui form attached segment mobileoff" enctype="multipart/form-data" action="/check/"
+                  method="post">
                 {% csrf_token %}
                 <div class="ui three column grid">
                     <div class="one column field">
@@ -146,10 +156,10 @@
                     </div>
                 </div>
             </form>
-            <div class="ui attached segment mobileoff"><p style="font-size: small">아직 베타 버전이라 부족한 부분이 많습니다. 차근차근 업데이트를 진행해 나가겠습니다.</p>
+            <div class="ui attached segment mobileoff"><p style="font-size: small">아직 베타 버전이라 부족한 부분이 많습니다.
+                현재 학명 서비스만 제공하고 있습니다. 차근차근 업데이트를 진행해 나가겠습니다.</p>
             </div>
-            
-            {% if message %}<div class="ui message">{{ message }}</div>{% endif %}
+
             {# 모바일로 접속했을 경우 #}
             <div class="ui message mobileon">죄송합니다.. 해당 서비스는 모바일을 지원하지 않습니다.</div>
         </div>
