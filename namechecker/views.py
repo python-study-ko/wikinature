@@ -56,6 +56,7 @@ class Index(View):
                         pass
 
                     finally:
+                        # 작업 완료된 파일 삭제
                         os.remove(file_name)
 
 
