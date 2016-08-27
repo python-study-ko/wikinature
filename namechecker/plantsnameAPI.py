@@ -1,6 +1,8 @@
 import requests
 from django.conf import settings
 
+
+
 # 국명 검색 API endpoint
 def NameInfo(num):
     """
@@ -38,9 +40,10 @@ def search(name,st=3):
     # print('item={0}, type={1}'.format(item,type(item)))
 
     if item != '':
+        beta = '현재 베타 버전입니다. 여러 자료를 원활하게 보여줄 방법을 준비중입니다.'
         if type(item['ns1.KorSearchVO']) == type(list()):
             """ 결과값이 두개 이상 나올경우 """
-            etc = '동일한 국명의 학명ID가 {}개 있습니다'.format(len(item['ns1.KorSearchVO']))
+            etc = '동일한 국명의 학명ID가 {0}개 있습니다,{1}'.format(len(item['ns1.KorSearchVO']),beta)
             data = {'state':False , 'etc':etc}
         elif type(item['ns1.KorSearchVO']) == type(dict()):
             """ 결과값이 1개일 경우 """
