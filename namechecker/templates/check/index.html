@@ -148,7 +148,8 @@
             </form>
             <div class="ui attached segment mobileoff"><p style="font-size: small">아직 베타 버전이라 부족한 부분이 많습니다. 차근차근 업데이트를 진행해 나가겠습니다.</p>
             </div>
-            <div class="ui message">{{ message }}</div>
+            
+            {% if message %}<div class="ui message">{{ message }}</div>{% endif %}
             {# 모바일로 접속했을 경우 #}
             <div class="ui message mobileon">죄송합니다.. 해당 서비스는 모바일을 지원하지 않습니다.</div>
         </div>
