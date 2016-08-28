@@ -42,7 +42,7 @@ class Index(View):
             if file.content_type != 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
                 upload = 'no'
                 test = file.content_type
-                message = '엑셀파일이 아닌거 같습니다. 파일 확장자를 확인해주시고 업로드 하세요'
+                message = '엑셀파일이 아닌거 같습니다. 파일 확장자가 .xlsx 인지 확인 부탁드립니다.'
             else:
                 # 업로드 파일을 임시파일로 저장하기
                 # tmp = tempfile.NamedTemporaryFile()
@@ -61,14 +61,14 @@ class Index(View):
                     # 매칭 작업
                     target.search()
                     # 작업 완료된 파일 저장
-                    file_name = '{} wikinature.xlsx'.format(datetime.now())
+                    file_name = '{}_wikinature.xlsx'.format(datetime.now())
                     target.file.save(file_name)
                     # 작업 완료된 파일을 리스폰
                     try:
                         with open(file_name, 'rb') as f:
                             upload = 'yes'
-                            response = HttpResponse(f.read(), content_type='application/vnd.ms-excel')
-                            response['Content-Disposition'] = 'attachment; filename="wikinature.xls"'
+                            response = HttpResponse(f.read(), content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+                            response['Content-Disposition'] = 'attachment; filename="wikinature.xlsx"'
                             return response
                     finally:
                         # 작업 완료된 파일 삭제
