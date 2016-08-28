@@ -63,6 +63,9 @@ class Index(View):
                     # 작업 완료된 파일 저장
                     file_name = '{}_wikinature.xlsx'.format(datetime.now())
                     target.file.save(file_name)
+
+                    # [test] 서버에서 메모리 누수가 확인됨에 따라 명시적으로 객체 삭제
+                    del target
                     # 작업 완료된 파일을 리스폰
                     try:
                         with open(file_name, 'rb') as f:
