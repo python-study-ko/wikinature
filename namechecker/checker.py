@@ -6,23 +6,27 @@ class Checker:
 
     def setdata(self,file,sheet_name,row_name,row_num):
         """ 엑셀의 속성값으로 구조 파악"""
-
+        data = {}
         def findtarget(head_col,row_name):
             """ 식물 이름 목록이 있는 열 위치값을 반환 """
             for col in head_col:
                 if col.value == row_name:
-                    return {'index':col.col_idx , 'str':col.column }
+                    data = {'index':col.col_idx , 'str':col.column }
+                    return data
+            # 종명확인이 안됬을 경우 에러 발생
+            raise NotImplementedError
+
 
         self.file = openpyxl.load_workbook(file)
         self.row_num = row_num
         self.row_name = row_name
         try:
             self.sheet = self.file.get_sheet_by_name(sheet_name)
-        except KeyError as e:
-            raise e
-        self.head_col = self.sheet.rows[row_num]
-        self.head_row = findtarget(self.head_col,row_name)
-        self.count_list = self.sheet.max_row
+            self.head_col = self.sheet.rows[row_num]
+            self.head_row = findtarget(self.head_col,row_name)
+            self.count_list = self.sheet.max_row    # 총 식물 갯수
+        except Exception as e:
+            return e
 
         # 매칭된 이름을 저장할 셀의 위치
         self._indx = self.sheet.max_column
