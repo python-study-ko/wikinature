@@ -5,6 +5,7 @@ from datetime import datetime
 from django.shortcuts import render
 import os
 from .forms import ImportFile
+from .log import uploadlog
 import tempfile
 from .checker import Checker
 
@@ -41,8 +42,8 @@ class Index(View):
             # 파일 형식확인 : 엑셀파일이 아닐경우
             if file.content_type != 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
                 upload = 'no'
-                test = file.content_type
                 message = '엑셀파일이 아닌거 같습니다. 파일 확장자가 .xlsx 인지 확인 부탁드립니다.'
+                uploadlog(file.name, sheet_name, row_num, row_name, file.content_type, 'fail')
             else:
                 # 업로드 파일을 임시파일로 저장하기
                 # tmp = tempfile.NamedTemporaryFile()
@@ -56,6 +57,7 @@ class Index(View):
                 if error_chekc:
                     upload = 'no'
                     message = '시트명,머리열 이름, 머리열 위치 를 다시 확인해 주시기 바랍니다. {}'.format(error_chekc)
+                    uploadlog(file.name, sheet_name, row_num, row_name, file.content_type, 'fail')
                 # 엑셀 매칭 작업
                 else:
                     # 매칭 작업
@@ -75,6 +77,7 @@ class Index(View):
                             return response
                     finally:
                         # 작업 완료된 파일 삭제
+                        uploadlog(file.name, sheet_name, row_num, row_name, file.content_type, 'success')
                         os.remove(file_name)
 
         else:   # 업로드 파일이 없을 경우
